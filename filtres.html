@@ -113,39 +113,26 @@
 
     <div class="row mt-12" style="background-color: #e8bd3d;">
       <div class="col-3">
-        <h6 style="float:left">Recherche par nom de jouers:</h6>
+        <h6 style="float:left">Recherche par id par exemple ecris 16:</h6>
         <div class="input-group">
 
           <input type="text" class="form-control" placeholder="Recherche par nom" name="search" id="searchByName">
           <div class="input-group-btn">
-            <button class="btn btn-primary fa fa-search" onClick="RechercheByName()">
+            <button class="btn btn-primary fa fa-search" onClick="RechercheByID()">
             </button>
           </div>
         </div>
       </div>
 	  
 	  
-      <div class="col-3">
-	          
-			  <h6 style="float:left">Recherche par equipe:</h6>
-			  
-        <div class="input-group">
-
-          <input type="text" class="form-control" placeholder="Recherche par equipe" name="search2" id="searchByequipe">
-          <div class="input-group-btn">
-            <button class="btn btn-primary fa fa-search" onClick="RechercheByequip()">
-            </button>
-          </div>
-        </div>
-
-	  </div>
+      
 	  
 	  
       <div class="col-3">
 	  
 	  
                          <div  style="text-align: center; float:right;">
-        <h6 style="float:left">Recherche par age:</h6>
+        <h6 style="float:left">Recherche par title:</h6>
         <select class="custom-select" id="selectParcours" onchange="RechercheByAGE()">
           <option value=""></option>
         </select>
@@ -201,7 +188,7 @@
       }
       dataForm = csv_data[0];
 
-      new_data = dataForm.filter(function (d) { return d["foaf:age"][0]["@value"] == x; });
+      new_data = dataForm.filter(function (d) { return d["dcterms:title"][0]["@value"] == x; });
 
       setData(new_data, true);
 
@@ -214,7 +201,7 @@
       // document.getElementById("spinner1").style.display = "none";
       document.getElementById("spinner2").style.display = "none";
     }
-    function RechercheByName() {
+    function RechercheByID() {
       displaySpinners();
       localStorage.clear();
       var name = document.getElementById('searchByName').value;
@@ -226,29 +213,13 @@
       }
       dataForm = csv_data[0];
       console.log(csv_data);
-      new_data = dataForm.filter(function (d) { return d["foaf:firstName"][0]["@value"].toLowerCase() + " " + d["foaf:familyName"][0]["@value"].toLowerCase() == name.toLowerCase(); });
+      new_data = dataForm.filter(function (d) { return d["o:id"] == name.toLowerCase(); });
       console.log(new_data);
       setData(new_data, true);
 
     }
 	
-	function RechercheByequip() {
-      displaySpinners();
-      localStorage.clear();
-      var name = document.getElementById('searchByequipe').value;
-      console.log(name);
-      if (name == "") {
-        setData(csv_data, false);
 
-        return;
-      }
-      dataForm = csv_data[0];
-      console.log(csv_data);
-      new_data = dataForm.filter(function (d) { return d["dcterms:contributor"][0]["display_title"] == name.toLowerCase(); });
-      console.log(new_data);                                        
-      setData(new_data, true);
-
-    }
 	
 	
 	
@@ -337,7 +308,7 @@ var csv_data;
         //le cercle de la recherche za3ma 
         let quest = "les jouers";
         //je remplie la liste par les age des jouers
-        let prop = d["o:id"];
+        let prop = d["dcterms:title"][0]["@value"];
         let v = 'studentNumbe';
        if (quest) {
           if (dataDoublons[quest] === undefined) {
@@ -424,7 +395,7 @@ var csv_data;
       
       if (donneeFiltree == false) {
         parcours = dataFacet[0];
-        console.log("age = " + parcours);
+        console.log("title = " + parcours);
       }
       var selectParcours = document.getElementById("selectParcours");
 
